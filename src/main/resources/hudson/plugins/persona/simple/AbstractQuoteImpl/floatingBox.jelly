@@ -25,7 +25,8 @@ THE SOFTWARE.
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
   <j:set var="img" value="${action.image}"/>
 
-  <img src="${rootURL}/${img.backgroundImageUrl}" width="48" height="48" /> ${action.quote}
+  <j:if test="${img.smallIconUrl}"><img src="${rootURL}/${img.smallIconUrl}" width="48" height="48" /></j:if>
+  <j:if test="${action.quote}">${action.quote}</j:if>
   <script>
       Element.setStyle($('main-table'), {
           'background-image': 'none'
