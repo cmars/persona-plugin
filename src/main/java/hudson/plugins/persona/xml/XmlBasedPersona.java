@@ -12,7 +12,9 @@ import org.dom4j.io.SAXReader;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,12 +31,6 @@ public class XmlBasedPersona extends SimplePersona {
     private final String imageBasePath;
 
     private String icon;
-
-    private String success;
-
-    private String failure;
-
-    private String other;
 
     private String displayName;
 
@@ -82,17 +78,38 @@ public class XmlBasedPersona extends SimplePersona {
      */
     public void reload() throws IOException, DocumentException {
         this.icon = findImage(imageBase, imageBasePath, "icon");
-        this.success = findImage(imageBase, imageBasePath, "success");
-        this.failure = findImage(imageBase, imageBasePath, "failure");
-        this.other = findImage(imageBase, imageBasePath, "other");
 
         Element r = new SAXReader().read(xml).getRootElement();
         this.displayName = r.attributeValue("displayName");
 
+        imagesSuccess = new ArrayList<String>();
+        imagesFailure = new ArrayList<String>();
+        imagesOther = new ArrayList<String>();
+        
         List<String> quotes = new ArrayList<String>();
         List<String> quotesSuccess = new ArrayList<String>();
         List<String> quotesFailure = new ArrayList<String>();
         List<String> quotesOther = new ArrayList<String>();
+        
+        for (Element e : (List<Element>) r.elements("image")) {
+            Attribute attribute = e.attribute("type");
+            String imagePath = e.getTextTrim();
+
+            if (null == attribute || null == imagePath) {
+                continue;
+            }
+            
+            imagePath = imageBasePath + '/' + imagePath;
+            
+            if ("success".equalsIgnoreCase(attribute.getText())) {
+                imagesSuccess.add(imagePath);
+            } else if ("failure".equalsIgnoreCase(attribute.getText())) {
+            	imagesFailure.add(imagePath);
+            } else if ("other".equalsIgnoreCase(attribute.getText())) {
+            	imagesOther.add(imagePath);
+            }
+        }
+        
         for (Element e : (List<Element>) r.elements("quote")) {
             Attribute attribute = e.attribute("type");
             String quote = e.getTextTrim();
@@ -117,17 +134,30 @@ public class XmlBasedPersona extends SimplePersona {
     public Image getImage(AbstractBuild<?, ?> build) {
         Result r = build.getResult();
         if (r == Result.SUCCESS) {
+        	String success = chooseRandomFrom(imagesSuccess);
             return new Image(icon, success);
         }
         if (r == Result.FAILURE) {
+        	String failure = chooseRandomFrom(imagesFailure);
             return new Image(icon, failure);
         }
+    	String other = chooseRandomFrom(imagesOther);
         return new Image(icon, other);
     }
 
-    @Override
+    private String chooseRandomFrom(List<String> images) {
+    	if (images == null || images.isEmpty()) {
+    		return null;
+    	}
+    	
+    	List<String> deck = new ArrayList<String>(images);
+    	Collections.shuffle(deck, new SecureRandom());
+		return deck.get(0);
+	}
+
+	@Override
     public Image getDefaultImage() {
-        return new Image(icon, success);
+        return new Image(icon, chooseRandomFrom(imagesSuccess));
     }
 
     public String getDisplayName() {
@@ -136,4 +166,10 @@ public class XmlBasedPersona extends SimplePersona {
 
     private static final String[] EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif",
         ".JPG", ".JPEG", ".PNG", ".GIF"};
+
+	private List<String> imagesSuccess;
+
+	private List<String> imagesFailure;
+
+	private List<String> imagesOther;
 }
