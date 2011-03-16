@@ -1,21 +1,21 @@
 package hudson.plugins.persona.xml;
 
-import hudson.model.AbstractBuild;
 import hudson.model.Result;
+import hudson.model.AbstractBuild;
 import hudson.plugins.persona.simple.Image;
 import hudson.plugins.persona.simple.SimplePersona;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import org.dom4j.Attribute;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-
-import java.io.IOException;
-import java.net.URL;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * {@link SimplePersona} implementation based on XML file.
@@ -151,7 +151,7 @@ public class XmlBasedPersona extends SimplePersona {
     	}
     	
     	List<String> deck = new ArrayList<String>(images);
-    	Collections.shuffle(deck, new SecureRandom());
+    	Collections.shuffle(deck, new Random(System.currentTimeMillis()));
 		return deck.get(0);
 	}
 

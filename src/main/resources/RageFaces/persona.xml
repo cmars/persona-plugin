@@ -1,0 +1,35 @@
+<persona id='ragefaces' displayName='Rage Faces'>
+
+  <image type="success">Rage/Happy/better_than_expected.jpg</image>
+  <image type="success">Rage/Happy/Ewbte.png</image>
+  <image type="success">Rage/Happy/happier.png</image>
+  <image type="success">Rage/Happy/Happy2.png</image>
+  <image type="success">Rage/Happy/me_gusta.jpg</image>
+  <image type="success">Rage/Happy/Smiley_face.png</image>
+  <image type="success">Rage/Happy/somewhat_happy.png</image>
+  <image type="success">Rage/Happy/tongue_out_happy.png</image>
+  <image type="success">Rage/Happy/Yay_face.png</image>
+  <image type="success">Rage/Win/FuckYeah.png</image>
+
+  <image type="other">Rage/Angry/mad.png</image>
+  <image type="other">Rage/Angry/sweating.jpg</image>
+  <image type="other">Rage/Neutral/meh.png</image>
+  <image type="other">Rage/Neutral/tongue.png</image>
+  <image type="other">Rage/Suspicious/o_mouth.png</image>
+  <image type="other">Rage/Suspicious/small_mouth.png</image>
+  <image type="other">Rage/Suspicious/WTFsuspicious.jpg</image>
+  
+  <image type="failure">Rage/Angry/dissapoint.png</image>
+  <image type="failure">Rage/OhNo/oh_no.jpg</image>
+  <image type="failure">Rage/OhNo/noooo.jpg</image>
+  <image type="failure">Rage/Rage/FFFFFUUUUUUUUUUUUUUUUUU.png</image>
+  <image type="failure">Rage/Sad/Why.png</image>
+  <image type="failure">Rage/Trolling/trollface.jpg</image>
+  <image type="failure">Rage/Rage/FFFFUUUUU.jpg</image>
+  
+  <quote type="failure">Every damn time.</quote>
+  <quote type="success">Everything went better than expected.</quote>
+  <quote>Kick off build, reload Reddit.</quote>
+  
+</persona>
+
